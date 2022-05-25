@@ -5,6 +5,7 @@ const QuiscoContext =  createContext()
 
 const QuiscoProvider = ({children})  => {
     const [categorias, setCategorias] = useState([])
+    const [categoriaActual, setCategoriaActual] = useState({})
     const obtenerCategorias = async () => {
         const {data} = await axios.get('/api/categorias')
         setCategorias(data)
@@ -12,9 +13,20 @@ const QuiscoProvider = ({children})  => {
     useEffect(()=>{
         obtenerCategorias()
     },[])
+    useEffect(()=>{
+        setCategoriaActual(categorias[0])
+    },[categorias])
+    const handelClickCategoria = (id) => {
+        const categoria = categorias.filter( cat => cat.id === id)
+        setCategoriaActual(categoria[0])
+    }
+
+  
     return (
         <QuiscoContext.Provider value={{
-            categorias
+            categorias,
+            handelClickCategoria,
+            categoriaActual,
         }}>
         {children}
         </QuiscoContext.Provider>
