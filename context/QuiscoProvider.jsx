@@ -25,8 +25,19 @@ const QuiscoProvider = ({children})  => {
         const categoria = categorias.filter( cat => cat.id === id)
         setCategoriaActual(categoria[0])
     }
-    const handleAgregarPedido = ({categoriaId, imagen, ...QuiscoContextproducto}) => {
-        setPedido([...pedido,producto])
+    const handleAgregarPedido = ({categoriaId, imagen, ...producto}) => {
+        
+        if(pedido.some(productoState => productoState.id === producto.id)){
+           // Actualizar cantidad
+           const pedidoActulizado = pedido.map(productoState =>{
+               productoState.id === producto.id ? producto : productoState
+           })
+              setPedido(pedidoActulizado)
+        }else {
+            setPedido([...pedido,producto])
+        }
+        
+       
     }
     useEffect(()=>{
         obtenerCategorias()
@@ -44,7 +55,8 @@ const QuiscoProvider = ({children})  => {
             handleSetProducto,
             producto,
             handleChangeModal,
-            modal
+            modal,
+            handleAgregarPedido
         }}>
         {children}
         </QuiscoContext.Provider>
