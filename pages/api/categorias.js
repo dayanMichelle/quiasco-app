@@ -5,8 +5,9 @@ import {PrismaClient} from '@prisma/client'
 //llamas a la base de datos desde static cuando lo quiero usar en el mismo componente
 
 const prisma = new PrismaClient()
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+const handler = async (req, res) => {
   const categorias = await prisma.categoria.findMany()
   res.status(200).json( categorias)
 }
+
+export default handler
