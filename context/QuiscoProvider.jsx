@@ -8,6 +8,7 @@ const QuiscoProvider = ({children})  => {
     const [categoriaActual, setCategoriaActual] = useState({})
     const [producto, setProducto] = useState({})
     const [modal, setModal] = useState(false)
+    const [pedido, setPedido] = useState([])
 
 
     const obtenerCategorias = async () => {
@@ -19,6 +20,13 @@ const QuiscoProvider = ({children})  => {
     }
     const handleChangeModal = () => {
         setModal(!modal)
+    } 
+    const handelClickCategoria = (id) => {
+        const categoria = categorias.filter( cat => cat.id === id)
+        setCategoriaActual(categoria[0])
+    }
+    const handleAgregarPedido = ({categoriaId, imagen, ...QuiscoContextproducto}) => {
+        setPedido([...pedido,producto])
     }
     useEffect(()=>{
         obtenerCategorias()
@@ -26,10 +34,7 @@ const QuiscoProvider = ({children})  => {
     useEffect(()=>{
         setCategoriaActual(categorias[0])
     },[categorias])
-    const handelClickCategoria = (id) => {
-        const categoria = categorias.filter( cat => cat.id === id)
-        setCategoriaActual(categoria[0])
-    }
+   
 
     return (
         <QuiscoContext.Provider value={{
