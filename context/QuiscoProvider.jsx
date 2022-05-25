@@ -29,14 +29,14 @@ const QuiscoProvider = ({children})  => {
         
         if(pedido.some(productoState => productoState.id === producto.id)){
            // Actualizar cantidad
-           const pedidoActulizado = pedido.map(productoState =>{
+           const pedidoActulizado = pedido.map(productoState => {
                productoState.id === producto.id ? producto : productoState
            })
               setPedido(pedidoActulizado)
         }else {
             setPedido([...pedido,producto])
         }
-        
+        setModal(false)
        
     }
     useEffect(()=>{
@@ -56,7 +56,8 @@ const QuiscoProvider = ({children})  => {
             producto,
             handleChangeModal,
             modal,
-            handleAgregarPedido
+            handleAgregarPedido,
+            pedido
         }}>
         {children}
         </QuiscoContext.Provider>

@@ -1,10 +1,20 @@
 import Image from "next/image";
 import useQuisco from "../hooks/useQuisco";
 import { formatear } from "../helpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const ModalProducto = () => {
-  const { producto, handleChangeModal,handleAgregarPedido } = useQuisco();
-  const [cantidad, setCantidad] = useState(1)
+  const { producto, handleChangeModal,handleAgregarPedido, pedido } = useQuisco();
+  const [cantidad, setCantidad] = useState(0)
+  const [edicion, setEdicion] = useState(false)
+
+  useEffect(() => {
+    if(pedido.some(pedidoState => pedidoState.id === producto.id)){
+        const productoEdicion = pedido.find(pedidoState => pedidoState.id === producto.id)
+        setEdicion(true)
+        setCantidad(productoEdicion.cantidad)
+    }
+  },[producto,pedido])
+
   return (
     <div className="md:flex gap-10">
       <div className="md:w-1/3">
@@ -94,7 +104,7 @@ const ModalProducto = () => {
         className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase"
         onClick={()=>handleAgregarPedido({...producto, cantidad})}
         >
-            Añadir al carrito
+          {edicion ? 'Guardar cambios' : 'Agregar al carrito'}
         </button>
       </div>
     </div>
