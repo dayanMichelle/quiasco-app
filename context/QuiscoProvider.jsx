@@ -1,5 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import {toast} from 'react-toastify'
+
 
 const QuiscoContext =  createContext()
 
@@ -35,6 +37,7 @@ const QuiscoProvider = ({children})  => {
               setPedido(pedidoActulizado)
         }else {
             setPedido([...pedido,producto])
+            toast.success(`${producto.nombre} agregado`)
         }
         setModal(false)
        
