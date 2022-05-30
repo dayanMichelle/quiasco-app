@@ -11,6 +11,7 @@ const QuiscoProvider = ({children})  => {
     const [producto, setProducto] = useState({})
     const [modal, setModal] = useState(false)
     const [pedido, setPedido] = useState([])
+    const [paso,setPaso] = useState(1)
 
 
     const obtenerCategorias = async () => {
@@ -48,6 +49,10 @@ const QuiscoProvider = ({children})  => {
     useEffect(()=>{
         setCategoriaActual(categorias[0])
     },[categorias])
+
+    const handleChangePaso = (paso) => {
+        setPaso(paso)
+    }
    
 
     return (
@@ -60,7 +65,9 @@ const QuiscoProvider = ({children})  => {
             handleChangeModal,
             modal,
             handleAgregarPedido,
-            pedido
+            pedido,
+            handleChangePaso,
+            paso
         }}>
         {children}
         </QuiscoContext.Provider>
