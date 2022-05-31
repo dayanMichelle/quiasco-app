@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { formatear } from "../helpers";
+import useQuisco from "../hooks/useQuisco";
 
 const ResumenProducto = ({ producto }) => {
+    const { handleEditarCantidades,handleEliminarProducto } = useQuisco()
   return (
     <div className="shadow p-5 mb-3 flex gap-10 items-center">
       <div className="md:w-1/6">
@@ -26,6 +28,7 @@ const ResumenProducto = ({ producto }) => {
       <div>
         <button
           type="button"
+          onClick={() => handleEditarCantidades(producto.id)}
           className="bg-sky-700 flex gap-2 px-5  py-2 font-bold  uppercase text-white rounded-md shadow-md w-full "
         >
           <svg
@@ -40,6 +43,7 @@ const ResumenProducto = ({ producto }) => {
         </button>
         <button
           type="button"
+          onClick={()=>handleEliminarProducto(producto.id)}
           className="bg-red-700 flex gap-2 px-5  py-2 font-bold  uppercase text-white rounded-md shadow-md w-full mt-3"
         >
           <svg

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 import {toast} from 'react-toastify'
 
@@ -6,11 +7,14 @@ import {toast} from 'react-toastify'
 const QuiscoContext =  createContext()
 
 const QuiscoProvider = ({children})  => {
+    
     const [categorias, setCategorias] = useState([])
     const [categoriaActual, setCategoriaActual] = useState({})
     const [producto, setProducto] = useState({})
     const [modal, setModal] = useState(false)
     const [pedido, setPedido] = useState([])
+    const [nombre,setNombre] = useState('')
+    const router = useRouter()
 
 
     const obtenerCategorias = async () => {
@@ -26,6 +30,7 @@ const QuiscoProvider = ({children})  => {
     const handelClickCategoria = (id) => {
         const categoria = categorias.filter( cat => cat.id === id)
         setCategoriaActual(categoria[0])
+        router.push('/')
     }
     const handleAgregarPedido = ({categoriaId, ...producto}) => {
         
@@ -49,7 +54,15 @@ const QuiscoProvider = ({children})  => {
         setCategoriaActual(categorias[0])
     },[categorias])
 
-
+    const handleEditarCantidades = id => {
+        const productoAtualizar = pedido.filter(producto => producto.id === id)
+        setProducto(productoAtualizar[0])
+        setModal(!modal)
+    }
+    const handleEliminarProducto = id => {
+        const pedidoEliminar = pedido.filter(producto => producto.id !== id)
+        setPedido(pedidoEliminar)
+    }
 
     return (
         <QuiscoContext.Provider value={{
@@ -62,6 +75,8 @@ const QuiscoProvider = ({children})  => {
             modal,
             handleAgregarPedido,
             pedido,
+            handleEditarCantidades,
+            handleEliminarProducto
         }}>
         {children}
         </QuiscoContext.Provider>
