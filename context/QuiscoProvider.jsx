@@ -27,7 +27,7 @@ const QuiscoProvider = ({children})  => {
         const categoria = categorias.filter( cat => cat.id === id)
         setCategoriaActual(categoria[0])
     }
-    const handleAgregarPedido = ({categoriaId, imagen, ...producto}) => {
+    const handleAgregarPedido = ({categoriaId, ...producto}) => {
         
         if(pedido.some(productoState => productoState.id === producto.id)){
            // Actualizar cantidad
