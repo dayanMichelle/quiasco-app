@@ -3,7 +3,7 @@ import useQuisco from "../hooks/useQuisco";
 import Layout from "../layout/Layout";
 
 export default function Total() {
-  const { pedido } = useQuisco();
+  const { pedido, nombre, setNombre } = useQuisco();
 
   const colocarOrden = (e) => {
     e.preventDefault();
@@ -11,8 +11,8 @@ export default function Total() {
   };
 
   const comprobarPedido = useCallback(() => {
-    return pedido.length === 0;
-  }, [pedido]);
+    return pedido.length === 0 || nombre === "" || nombre.length < 4;
+  }, [pedido,nombre]);
 
   useEffect(() => {
     comprobarPedido();
@@ -34,6 +34,8 @@ export default function Total() {
             id="nombre"
             type="text"
             className="bg-gray-200 w-full lg:w-1/3 mt-3 p-2 rounded-md"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
           />
         </div>
         <div className="mt-10">
@@ -46,7 +48,11 @@ export default function Total() {
             disabled={comprobarPedido()}
             type="submit"
             value="Confirmar pedido"
-            className={` ${comprobarPedido() ? 'bg-indigo-100' : 'bg-indigo-600 hover:bg-indigo-800'} text-center w-full lg:w-auto px-5 py-2 rounded uppercase font-bold text-white `}
+            className={` ${
+              comprobarPedido()
+                ? "bg-indigo-100"
+                : "bg-indigo-600 hover:bg-indigo-800"
+            } text-center w-full lg:w-auto px-5 py-2 rounded uppercase font-bold text-white `}
           />
         </div>
       </form>

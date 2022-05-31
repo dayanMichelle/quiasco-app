@@ -76,7 +76,9 @@ const QuiscoProvider = ({children})  => {
             handleAgregarPedido,
             pedido,
             handleEditarCantidades,
-            handleEliminarProducto
+            handleEliminarProducto,
+            nombre,
+            setNombre
         }}>
         {children}
         </QuiscoContext.Provider>
