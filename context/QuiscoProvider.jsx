@@ -14,6 +14,7 @@ const QuiscoProvider = ({children})  => {
     const [modal, setModal] = useState(false)
     const [pedido, setPedido] = useState([])
     const [nombre,setNombre] = useState('')
+    const [total,setTotal] = useState(0)
     const router = useRouter()
 
 
@@ -47,9 +48,13 @@ const QuiscoProvider = ({children})  => {
         setModal(false)
        
     }
+    useEffect(() => {
+        const nuevoTotal = pedido.reduce((total,producto) => (producto.precio * producto.cantidad) + total,0)
+        setTotal(nuevoTotal)
+    },[])
     useEffect(()=>{
         obtenerCategorias()
-    },[])
+    },[pedido])
     useEffect(()=>{
         setCategoriaActual(categorias[0])
     },[categorias])
@@ -63,6 +68,11 @@ const QuiscoProvider = ({children})  => {
         const pedidoEliminar = pedido.filter(producto => producto.id !== id)
         setPedido(pedidoEliminar)
     }
+    const colocarOrden = async (e) => {
+        e.preventDefault();
+        console.log("colocar orden");
+      };
+    
 
     return (
         <QuiscoContext.Provider value={{
@@ -78,7 +88,9 @@ const QuiscoProvider = ({children})  => {
             handleEditarCantidades,
             handleEliminarProducto,
             nombre,
-            setNombre
+            setNombre,
+            colocarOrden,
+            total
         }}>
         {children}
         </QuiscoContext.Provider>

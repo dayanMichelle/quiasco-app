@@ -1,14 +1,11 @@
 import { useCallback, useEffect } from "react";
 import useQuisco from "../hooks/useQuisco";
 import Layout from "../layout/Layout";
+import {formatear} from '../helpers'
 
 export default function Total() {
-  const { pedido, nombre, setNombre } = useQuisco();
+  const { pedido, nombre, setNombre,colocarOrden,total } = useQuisco();
 
-  const colocarOrden = (e) => {
-    e.preventDefault();
-    console.log("colocar orden");
-  };
 
   const comprobarPedido = useCallback(() => {
     return pedido.length === 0 || nombre === "" || nombre.length < 4;
@@ -40,7 +37,7 @@ export default function Total() {
         </div>
         <div className="mt-10">
           <p className="text-2xl">
-            Total a pagar {""} <span className="font-bold"></span>
+            Total a pagar: {""} <span className="font-bold">{formatear(total)}</span>
           </p>
         </div>
         <div className="mt-5">
